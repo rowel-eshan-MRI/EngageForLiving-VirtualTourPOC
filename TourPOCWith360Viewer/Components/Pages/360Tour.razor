@@ -1,0 +1,30 @@
+﻿@page "/360Tour"
+@inject IJSRuntime JS
+@inject HttpClient HTTP
+@rendermode InteractiveServer
+
+<button id="startTourButton" @onclick="openTour">Start Tour</button>
+
+@code {
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+    //     {
+    //         string propertyName = "House1";
+    //         // Adjust the path to your 360 image as needed
+    //         string imagePath = "Content/360img1.jpg";
+    //         String jsFile = await HTTP.GetStringAsync("https://localhost:7130/Tours/"+propertyName+"/data.js");
+    //         String jsonFromFile = jsFile.Substring(15, jsFile.Length - 15 - 2);
+    //         await JS.InvokeVoidAsync("startMarzipano", jsonFromFile, propertyName);
+    //         //await JS.InvokeVoidAsync("initializeMarzipano", imagePath);
+    //     }
+
+    // }
+
+    private async Task openTour()
+    {
+        string propertyName = "The Hepburn";
+        await JS.InvokeVoidAsync("openTourModal", "/360Tour/" + propertyName, 700, 550);
+    }
+
+}

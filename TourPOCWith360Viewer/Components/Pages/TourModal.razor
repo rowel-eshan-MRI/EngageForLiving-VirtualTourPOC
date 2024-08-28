@@ -1,0 +1,25 @@
+﻿@page "/360Tour/{propertyName}"
+@inject IJSRuntime JS
+@inject HttpClient HTTP
+@rendermode InteractiveServer
+
+<div id="pano" style="width: 100%; height: 500px"></div>
+
+@code {
+    [Parameter]
+    public string propertyName { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Adjust the path to your 360 image as needed
+            string imagePath = "Content/360img1.jpg";
+            String jsFile = await HTTP.GetStringAsync("https://localhost:7130/Tours/" + propertyName + "/data.js");
+            String jsonFromFile = jsFile.Substring(15, jsFile.Length - 15 - 2);
+            await JS.InvokeVoidAsync("startMarzipano", jsonFromFile, propertyName);
+            //await JS.InvokeVoidAsync("initializeMarzipano", imagePath);
+        }
+
+    }
+}
